@@ -86,6 +86,5 @@ int main(){
             current = top_box.top();
             top_box.pop();
         }
-
     }
 }
