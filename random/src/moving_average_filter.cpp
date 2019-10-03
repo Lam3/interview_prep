@@ -1,6 +1,7 @@
 #include <queue>
 #include <inttypes.h>
 #include <iostream>
+#include <list>
 
 uint32_t GetData();
 
@@ -12,12 +13,12 @@ class MovingAverageFilter{
     }
     
     void addData(uint32_t data_point){
-      data_stream.push(data_point);
+      data_stream.push_back(data_point);
       running_sum += data_point;
       
       if(data_stream.size() > filter_size){
-        running_sum -= data_stream.top();
-        data_stream.pop();
+        running_sum -= data_stream.front();
+        data_stream.pop_front();
       }
     }
     
@@ -26,7 +27,7 @@ class MovingAverageFilter{
     }
     
   private:
-    queue<uint32_t> data_stream;
+    std::list<uint32_t> data_stream;
     uint32_t running_sum;
     uint32_t filter_size;
 };

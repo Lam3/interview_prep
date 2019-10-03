@@ -87,13 +87,13 @@ public:
     {
         a_ = new Point(a);
         b_ = new Point(b);
-        slope = (b_->y_ - a_->y_) / (b_->x_ - a_->x_);
-        intercept = b_->y_ - (b_->x_ * this->slope);
+        slope = (*(b_->y_) - *(a_->y_)) / (*(b_->x_) - *(a_->x_));
+        intercept = *(b_->y_) - ( *(b_->x_) * (this->slope));
     }
 
     bool checkCollision(const Line &obstacle){
         if(obstacle.slope != this->slope){
-            return false;
+            return true;
         } else {
             return (obstacle.intercept == this->intercept);
         }
@@ -101,10 +101,10 @@ public:
 
     bool checkCollison(const Line &obstacle, Point &intersect){
         // overloaded function, includes intersect which will be set to the intersection point
-        if(!this->checkCollision(obstacle){
+        if(!this->checkCollision(obstacle)){
             return false;
         }
-
+        return true;
         // Calculate the collision position and set intersect->x, intersect->y
     }
 

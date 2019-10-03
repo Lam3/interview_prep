@@ -40,16 +40,17 @@ void Graph::topo_sort(std::vector<int> &sorted){
             incoming[val].insert(k);
         }
     }
-
+    
+    std::vector<bool> added(this->v, false);
     std::list<int> heads;
     for(int k = 0; k < this->v; k++){
         if(incoming[k].empty()){
             heads.push_back(k);
+            added[k] = true;
         }
     }
 
-    std::vector<int> visited(this->v, false);
-    
+    std::vector<bool> visited(this->v, false);
     while(!heads.empty()){
         int head = heads.front();
         heads.pop_front();
@@ -60,6 +61,9 @@ void Graph::topo_sort(std::vector<int> &sorted){
         for(int child : outgoing[head]){
             // if all incoming for child are in visited, it becomes a head
             // otherwise, pass
+            if(added[child]){
+                continue;
+            }
             bool pass = true;
             for(int inc : incoming[child]){
                 if(!visited[inc]){
@@ -68,6 +72,7 @@ void Graph::topo_sort(std::vector<int> &sorted){
                 }
             }
             if(pass){
+                added[child] = true;
                 heads.push_back(child);
             }
         }
@@ -81,6 +86,7 @@ int main(){
     G.add_edge(1,4);
     G.add_edge(2,3);
     G.add_edge(3,5);
+    G.add_edge(4,2);
 
     G.show_edges();
     std::vector<int> sorted;
@@ -88,4 +94,5 @@ int main(){
     for(int k : sorted){
         std::cout << k << ", ";
     }
+    std::cout << std::endl;
 }
